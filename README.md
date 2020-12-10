@@ -1,64 +1,123 @@
-# Phase 1 Project
+![logo](images/micro.png)
 
-You've made it all the way through the first phase of this course - take a minute to celebrate your awesomeness!
+# Project Description:
 
-![awesome](https://raw.githubusercontent.com/learn-co-curriculum/dsc-phase-1-project/master/awesome.gif)
+For this project, I will analyze movie data to come up with the best recommendations for Microsoft's new movie studio. I will use the data to create insights that can be used to increase the likelihood of a successful start. 
 
-Now you will put your new skills to use with a large end-of-Phase project! This project should take 20 to 30 hours to complete.
+## Data
 
-## Project Overview
-
-For this project, you will use exploratory data analysis to generate insights for a business stakeholder.
-
-### Business Problem
-
-Microsoft sees all the big companies creating original video content and they want to get in on the fun. They have decided to create a new movie studio, but they don’t know anything about creating movies. You are charged with exploring what types of films are currently doing the best at the box office. You must then translate those findings into actionable insights that the head of Microsoft's new movie studio can use to help decide what type of films to create.
-
-### The Data
-
-In the folder `zippedData` are movie datasets from:
-
-* Box Office Mojo
+**In the folder 'zippedData' from 2 different sources:**
 * IMDB
-* Rotten Tomatoes
-* TheMovieDB.org
+* TN Movie Budgets
 
-It is up to you to decide what data from this to use and how to use it. If you want to make this more challenging, you can scrape websites or make API calls to get additional data. If you are feeling overwhelmed or behind (e.g. struggled with the Phase 1 Code Challenge), we recommend you use only the following data files:
+**From these soucres I used a few datasets to make the necessary insights:**
+* tn.movie_budgets.csv.gz
+* imdb.title.ratings.csv.gz
+* imdb.title.basics.csv.gz
 
-* imdb.title.basics
-* imdb.title.ratings
-* bom.movie_gross
+With sqlite3 I was able to combine all of the datasets into one dataframe. For ease of use.
 
-## Deliverables
+![dataframes](images/dfs.png)
 
-There are three deliverables for this project:
+# Key Insights
 
-* A **GitHub repository**
-* A **Jupyter Notebook**
-* A **non-technical presentation**
+## What is the most popular genre?
 
-Review the "Project Submission & Review" page in the "Milestones Instructions" topic for instructions on creating and submitting your deliverables. Refer to the rubric associated with this assignment for specifications describing high-quality deliverables.
+Looking at the ratings for different genre can give us an idea of what people like. That way you can build loyalty by giving people what they want. Below I analyzed the most popular genres within the movie database. I looked at the average rating for each movie and grouped them by genre. I took the sum of those ratings to get my results below. 
 
-### Key Points
+!['first_rating_plot](images/pic1.png)
 
-* **Your analysis should yield three concrete business recommendations.** The ultimate purpose of exploratory analysis is not just to learn about the data, but to help an organization perform better. Explicitly relate your findings to business needs by recommending actions that you think the business (Microsoft) should take.
+My first thought was "Wow, Drama is really high compared to the other genres." So i decided to dig a bit further to see if there was a reason.
 
-* **Communicating about your work well is extremely important.** Your ability to provide value to an organization - or to land a job there - is directly reliant on your ability to communicate with them about what you have done and why it is valuable. Create a storyline your audience (the head of Microsoft's new movie studio) can follow by walking them through the steps of your process, highlighting the most important points and skipping over the rest.
+**There Was**
 
-* **Use plenty of visualizations.** Visualizations are invaluable for exploring your data and making your findings accessible to a non-technical audience. Spotlight visuals in your presentation, but only ones that relate directly to your recommendations. Simple visuals are usually best (e.g. bar charts and line graphs), and don't forget to format them well (e.g. labels, titles).
+I found some movies that were duplicated when I searched the dataframe. The movies were had different genres which can skewed our data. I used a method that removes the duplicates. With more time I can research to make sure the movie I kept had the right genre listed. 
 
-## Getting Started
+!['movies_duplicate](images/movies.png)
 
-Please start by reviewing this assignment, the rubric at the bottom of it, and the "Project Submission & Review" page. If you have any questions, please ask your instructor ASAP.
+![most_popular_genre](images/pic2.png)
 
-Next, we recommend you check out [the Phase 1 Project Templates and Examples repo](https://github.com/learn-co-curriculum/dsc-project-template) and use the MVP template for your project.
 
-Alternatively, you can fork [the Phase 1 Project Repository](https://github.com/learn-co-curriculum/dsc-phase-1-project), clone it locally, and work in the `student.ipynb` file. Make sure to also add and commit a PDF of your presentation to your repository with a file name of `presentation.pdf`.
+### Insights/Findings/Recommendations
 
-## Project Submission and Review
+**Findings**
 
-Review the "Project Submission & Review" page in the "Milestones Instructions" topic to learn how to submit your project and how it will be reviewed. Your project must pass review for you to progress to the next Phase.
+After examining all 2785 movies in the dataset. I created a datatframe that shows the count of all the unique genres and and the sum of their average ratings. After after removing the duplicates, Drama still trump over the other genres. It even appeared with other genres on the list. So my guess is that people love a bit of drama in their movies.
 
-## Summary
+**Recommendations**
 
-This project will give you a valuable opportunity to develop your data science skills using real-world data. The end-of-phase projects are a critical part of the program because they give you a chance to bring together all the skills you've learned, apply them to realistic projects for a business stakeholder, practice communication skills, and get feedback to help you improve. You've got this!
+1. Since 90% of popular movies focus on more than one genre, so should we. 
+2. Release movies that has genre dealing with Drama, whether alone or paired with another like Comedy or Romance. 
+
+## What is the highest profit between selected genres?
+
+**Before I look at the comparsion of profits by genre. I want to check if there's a positive correlation between popular and revenue. Does higher rating mean higher revenue?**
+
+![profits_corr](images/pic3.png)
+
+So it looks like there a small, but positive correlation between popularity and revenue. Looking at the graph there's a majority of movies making money that have a rating between 6 and 8. So a movie doesn't have to be a perfect 10 to make money, but it's better to keep it over a rating of 6.
+
+**Next I wanted to see quickly compare the top profitable genres with popular genres. Then I compared them side by side in hopes of finding some similarities.**
+
+![profits_vs_popularity](images/pic4.png)
+
+### Findings/Recommendations
+
+**Findings**
+
+Looking at the charts you can see there are only a few similarities. Even though Drama is high in popularity the profits are a bit on low side. Good thing Action/Adventure/Sci-Fi and Adventure/Animation/Comedy are the top two in regards of earnings, and still have a good amount of popularity to work with. It's best not to lean too heavy on Drama genres, since it's not a real moneymaker.
+
+**Recommnedations**
+* I still think it's best to work with the most popular genres, right now, just to build a brand before branching out.
+* Right now working with Drama, Action/Adventure/Sci-Fi and Adventure/Animation/Comedy is the best bet.
+
+## What is the return of investment for selected genres?
+
+Since we're sticking with poplarity lets check the fiance from another angle. This can give us an idea of what to invest in. This way we can see which genre gives us the bang for our buck. Let's analyze the return of investment(roi) for each popular genre.
+
+![roi_by_genre](images/pic5.png)
+
+### Findings/Recommendations
+
+**Findings**
+
+* So Drama still seems like the best way to go being the highest in ratings and in return of investments between the most popular genres. Though it seems that even some of the most popular genres have a lower roi than the least popular. With Action/Adventure/Sci-Fi and Adventure/Animation/Comedy, our most profitable genres, coming right behind. 
+
+**Recommendations**
+* Investing with Drama genres will guarantee a better return. Action/Adventure/Sci-Fi and Adventure/Animation/Comedy are great investments as well as proftiable. So a win-win situation there. 
+* We should start with a few genres to get our toes wet. For then next analysis let's focus on the top four.
+
+## What is the best time to release selected genres?
+
+Picking the time to release a film is crucial to profits. It's a fact people are more adventurous in warmer months, so adventure is a great genre during that time. While others like to cozy up in the colder months, and what better way to cozy up then with a great dramatic movie. Now with a list of four genres the next step is to figure out the best time to release the films. Below you can see each genre and the profits for each month.
+
+![most_popular_genre](images/pic6.png)
+
+### Findings/Recommendations
+
+**Findings**
+
+All around these genres look promising in the month of June. The highest for each genre:
+        Drama in Novemeber
+        Adventure/Animation/Comedy in July
+        Action/Adventure/Sci-Fi in May
+        Drama/Romance in February(shocker, right?)
+        
+**Recommendations**
+1. Drama movies will be great for June, July, and November.
+2. Adventure,Animation,Comedy will be great for June/July releases.
+3. Action,Adventure,Sci-Fi will be great for May/June releases.
+4. Drama,Romance will be great for February/June releases.
+
+# Conclusions
+
+
+**Recommendations**
+* Focus on Drama movies for the highest rating. Ratings are important to create loyal customers. Lower rating movies don't get a second glance.
+* For profit add Adventure/Animation/Comedy and Action/Adventure/Sci-Fi, though the ratings is fair these genres bring in the most profit. Profits that help build a better studio.
+* All movies with these genres should have a summer release. Drama/Romance should focus on more releases in February and Drama in November.
+
+**Next Steps**
+* More in-depth statistical analysis to better understand the trends
+* Attempt to gather more genre and ratings data as many movies was missing values.
+* Focus on production cost for each genre and invest in people to create these films
